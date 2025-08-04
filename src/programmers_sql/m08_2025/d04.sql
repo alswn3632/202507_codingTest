@@ -1,0 +1,11 @@
+--https://school.programmers.co.kr/learn/courses/30/lessons/157341
+--대여 기록이 존재하는 자동차 리스트 구하기
+
+SELECT DISTINCT
+    CR2.CAR_ID
+FROM CAR_RENTAL_COMPANY_CAR CR1
+    INNER JOIN CAR_RENTAL_COMPANY_RENTAL_HISTORY CR2
+    ON CR1.CAR_ID = CR2.CAR_ID
+WHERE MONTH(CR2.START_DATE) = 10
+    AND CR1.CAR_TYPE = '세단'
+ORDER BY CR2.CAR_ID DESC
