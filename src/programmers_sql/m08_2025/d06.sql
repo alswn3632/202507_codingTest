@@ -1,0 +1,13 @@
+--https://school.programmers.co.kr/learn/courses/30/lessons/144855
+--카테고리 별 도서 판매량 집계하기
+
+SELECT
+    BK.CATEGORY,
+    SUM(BS.SALES) AS BOOK_SALES
+FROM BOOK BK
+    INNER JOIN BOOK_SALES BS
+    ON BK.BOOK_ID = BS.BOOK_ID
+WHERE YEAR(BS.SALES_DATE) = 2022
+    AND MONTH(BS.SALES_DATE) = 1
+GROUP BY BK.CATEGORY
+ORDER BY BK.CATEGORY
