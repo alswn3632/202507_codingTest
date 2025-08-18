@@ -1,0 +1,42 @@
+SELECT
+    CASE
+        WHEN (D.SKILL_CODE & (SELECT CODE FROM SKILLCODES WHERE NAME = 'Python'))
+            = (SELECT CODE FROM SKILLCODES WHERE NAME = 'Python')
+            AND EXISTS (
+            SELECT 1
+            FROM SKILLCODES S
+            WHERE S.CATEGORY = 'Front End' AND (D.SKILL_CODE & S.CODE) = S.CODE
+        ) THEN 'A'
+        WHEN (D.SKILL_CODE & (SELECT CODE FROM SKILLCODES WHERE NAME = 'C#'))
+            = (SELECT CODE FROM SKILLCODES WHERE NAME = 'C#'
+        ) THEN 'B'
+        WHEN EXISTS (
+            SELECT 1
+            FROM SKILLCODES S
+            WHERE S.CATEGORY = 'Front End' AND (D.SKILL_CODE & S.CODE) = S.CODE
+        ) THEN 'C'
+    END AS GRADE,
+    D.ID,
+    D.EMAIL
+FROM DEVELOPERS D
+WHERE (
+    (D.SKILL_CODE & (SELECT CODE FROM SKILLCODES WHERE NAME = 'Python'))
+    = (SELECT CODE FROM SKILLCODES WHERE NAME = 'Python')
+    AND EXISTS (
+        SELECT 1
+        FROM SKILLCODES S
+        WHERE S.CATEGORY = 'Front End'
+            AND (D.SKILL_CODE & S.CODE) = S.CODE
+        )
+    )
+    OR ((D.SKILL_CODE & (SELECT CODE FROM SKILLCODES WHERE NAME = 'C#'))
+        = (SELECT CODE FROM SKILLCODES WHERE NAME = 'C#'))
+    OR EXISTS (
+        SELECT 1
+        FROM SKILLCODES S
+        WHERE S.CATEGORY = 'Front End'
+        AND (D.SKILL_CODE & S.CODE) = S.CODE
+    )
+ORDER BY GRADE, D.ID
+
+--WHERE절에서 단계 A/B/C를 만족하는 개발자만 포함시킴.
