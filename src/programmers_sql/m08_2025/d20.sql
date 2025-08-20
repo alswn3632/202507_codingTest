@@ -1,0 +1,20 @@
+--https://school.programmers.co.kr/learn/courses/30/lessons/133027
+--주문량이 많은 아이스크림들 조회하기
+
+SELECT
+    FLAVOR
+FROM (
+    SELECT FLAVOR, SUM(TOTAL_ORDER) AS TOTAL_ORDER_SUM
+    FROM (
+        SELECT FLAVOR, TOTAL_ORDER
+        FROM FIRST_HALF
+        UNION ALL
+        SELECT FLAVOR, TOTAL_ORDER
+        FROM JULY
+    ) SUM
+    GROUP BY FLAVOR
+) TOTAL
+ORDER BY TOTAL_ORDER_SUM DESC
+LIMIT 3
+
+--MySQL에는 'FULL OUTER JOIN'이 없어 UNION ALL을 활용
