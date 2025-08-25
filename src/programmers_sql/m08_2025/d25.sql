@@ -1,0 +1,16 @@
+--https://school.programmers.co.kr/learn/courses/30/lessons/131532
+--년, 월, 성별 별 상품 구매 회원 수 구하기
+
+SELECT
+    YEAR(OS.SALES_DATE) AS YEAR,
+    MONTH(OS.SALES_DATE) AS MONTH,
+    UI.GENDER,
+    COUNT(DISTINCT UI.USER_ID) AS USERS
+FROM ONLINE_SALE OS
+    INNER JOIN USER_INFO UI
+    ON OS.USER_ID = UI.USER_ID
+WHERE UI.GENDER IS NOT NULL
+GROUP BY YEAR(OS.SALES_DATE), MONTH(OS.SALES_DATE), UI.GENDER
+ORDER BY YEAR(OS.SALES_DATE), MONTH(OS.SALES_DATE), UI.GENDER
+
+--구매한 상품의 숫자가 아니라 상품을 구매한 회원 수이므로 'DISTINCT'를 통해 중복제거를 걸어줘야 원하는 결과가 나올 수 있다.
